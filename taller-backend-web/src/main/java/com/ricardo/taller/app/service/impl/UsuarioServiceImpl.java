@@ -66,7 +66,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Usuario> obtenerPorUsuario(String usuario) {
-		return usuarioRepository.findByUser(usuario);
+		return usuarioRepository.findByUserIgnoreCase(usuario);
 	}
 	
 	@Transactional(readOnly = true)
