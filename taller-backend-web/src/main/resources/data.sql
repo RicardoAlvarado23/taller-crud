@@ -1,0 +1,1 @@
+INSERT INTO crud.producto (cod_producto,nombre,precio) VALUES ('10','Producto 1', 20.6);

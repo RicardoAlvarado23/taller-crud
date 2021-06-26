@@ -1,0 +1,53 @@
+<form (ngSubmit)="save()" [formGroup]="form">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+        <h2 *ngIf="form.get('nombre').value" class="headline m-0" fxFlex="auto">{{ form.get('nombre').value}}</h2>
+        <h2 *ngIf="!form.get('nombre').value" class="headline m-0" fxFlex="auto">Nueva Sucursal</h2>
+
+        <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+            <mat-icon>more_vert</mat-icon>
+              </button>
+
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+
+    <mat-dialog-content class="my-4">
+        <div class="row">
+            <div class="col-xs-12 col-md-4" *ngIf="isUpdateMode()">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Código</mat-label>
+                    <input cdkFocusInitial formControlName="codigoSucursal" autocomplete="off" upperCase matInput disabled maxlength="20">
+                    <mat-icon class="mr-1" matSuffix>text_format</mat-icon>
+                    <mat-error *ngIf="form.get('codigoSucursal').hasError('required')">Por favor, ingrese el código</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-xs-12 col">
+                <mat-form-field class="mt-6 w-100" appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input cdkFocusInitial formControlName="nombre" upperCase #mtNombre autocomplete="off" matInput maxlength="50" required>
+                    <mat-icon class="mr-1" matSuffix>drag_handle</mat-icon>
+                    <mat-hint align="end">{{mtNombre.value.length}}/50</mat-hint>
+                    <mat-error *ngIf="form.get('nombre').hasError('required')">Por favor, ingrese el nombre</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close type="button">CANCELAR</button>
+        <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" [disabled]="form.invalid">CREAR SUCURSAL</button>
+        <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit" [disabled]="form.invalid">ACTUALIZAR SUCURSAL</button>
+    </mat-dialog-actions>
+</form>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+    <button mat-menu-item (click)="limpiar()">
+        <mat-icon>delete_outline</mat-icon>
+        <span>Limpiar</span>
+      </button>
+</mat-menu>

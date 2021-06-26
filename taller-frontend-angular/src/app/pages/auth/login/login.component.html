@@ -1,0 +1,94 @@
+<div class="bg-primary bg-pattern">
+
+    <div class="account-pages pt-sm-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <img src="./assets/images/angular.png" style="width: 80px;" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center mb-5">
+                        <h5 class="font-size-16 text-white-50 mb-4">Taller Frontend Angular</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-sm-8">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="p-2">
+                                <h5 class="mb-5 text-center">Inicia sesión para continuar.</h5>
+                                <form class="form-horizontal" [formGroup]="form">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <mat-form-field appearance="outline" class="w-100">
+                                                    <mat-label>Usuario</mat-label>
+                                                    <input matInput required maxlength="20" formControlName="user" upperCase autocomplete="off">
+                                                    <mat-error *ngIf="form.get('user').hasError('required')">
+                                                        <strong>Por favor, ingrese ingrese su usuario</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="form-group  mb-3">
+                                                <mat-form-field appearance="outline" class="w-100">
+                                                    <mat-label>Contraseña</mat-label>
+                                                    <input [type]="inputType" matInput required maxlength="20" formControlName="password" autocomplete="off">
+                                                    <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Mostrar contraseña" type="button">
+                                                        <mat-icon *ngIf="visible">visibility</mat-icon>
+                                                        <mat-icon *ngIf="!visible" >visibility_off</mat-icon>
+                                                      </button>
+                                                    <mat-error *ngIf="form.get('password').hasError('required')">
+                                                        <strong>Por favor, ingrese ingrese su contraseña</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="customControlInline">
+                                                        <label class="custom-control-label" for="customControlInline">Recuérdame</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="text-md-right mt-3 mt-md-0">
+                                                        <a class="text-muted"><i class="mdi mdi-lock"></i> Olvidaste tu clave?</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <button mat-raised-button class="btn-block" [disabled]="form.invalid" (click)="login()" color="primary">Ingresar</button>
+                                            </div>
+                                            <div class="mt-4 text-center">
+                                                <a class="text-muted cursor-pointer" (click)="toggerPruebaUser()"><i class="mdi mdi-account-circle mr-1"></i> {{labelVerUsuarioPrueba}} cuenta de prueba.</a>
+                                            </div>
+                                            <div class="my-2" *ngIf="verPrueba" @fadeInRight>
+                                                <div class="alert alert-warning">
+                                                    <h6 class="mb-0"><strong>Usuario: </strong> <span class="text-danger">admin</span></h6>
+                                                    <h6 class="mb-0"><strong>Clave: </strong> <span class="text-danger">123456</span></h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+    </div>
+    <!-- end Account pages -->
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="medium" color="#2c0cac" type="ball-triangle-path" [fullScreen]="true">
+</ngx-spinner>

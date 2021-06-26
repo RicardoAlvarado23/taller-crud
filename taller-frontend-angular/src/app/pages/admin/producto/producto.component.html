@@ -1,0 +1,102 @@
+<!-- Page-Title -->
+<div class="page-title-box">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h4 class="page-title mb-1">Mantenimiento de productos</h4>
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">admin</a></li>
+                    <li class="breadcrumb-item active">productos</li>
+                </ol>
+            </div>
+            <div class="col-md-4">
+                <div class="float-right d-none d-md-block">
+                    <div class="dropdown">
+                        <button (click)="crear()" class="btn btn-light btn-rounded " type="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi  mdi-plus-thick mr-1" ></i> Nuevo Producto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- end page title end breadcrumb -->
+
+<div class="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mt-3 mb-1">
+                            <mat-form-field appearance="fill" class="wrapper-p-0 w-100">
+                                <mat-label>Buscar Productos</mat-label>
+                                <mat-icon matPrefix class="mr-2">search</mat-icon>
+                                <input [formControl]="searchCtrl" upperCase matInput placeholder="Buscar Productos" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table [dataSource]="dataSource" class="w-100" mat-table matSort>
+
+                                <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+
+
+                                <!-- Attribute Column -->
+                                <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                                    <ng-container *ngIf="column.type === 'text' || column.type === 'indicador'|| column.type === 'boolean'" [matColumnDef]="column.property">
+                                        <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.label }}</th>
+                                        <td *matCellDef="let row" mat-cell>
+                                            <span *ngIf="column.type === 'text'">
+                                                <span *ngIf="!column.transform">{{ row[column.property] }}</span>
+                                            <span *ngIf="column.transform == 'titlecase'">{{ row[column.property]  | internalProperty:row:column.property | titlecase }}</span>
+                                            </span>
+                                            <span *ngIf="column.type === 'indicador'">{{ row[column.property] == 'A' ? 'Activo' : 'Inactivo' }}</span>
+                                            <span *ngIf="column.type === 'boolean'">{{ row[column.property] ? 'Activo' : 'Inactivo'}}</span>
+                                        </td>
+                                    </ng-container>
+                                </ng-container>
+
+                                <!-- actions Column -->
+                                <ng-container matColumnDef="actions">
+                                    <th *matHeaderCellDef class="actions-cell" mat-header-cell mat-sort-header></th>
+                                    <td *matCellDef="let row" class="w-10" mat-cell>
+                                        <button (click)="$event.stopPropagation()" [matMenuTriggerData]="{ producto: row }" [matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+                                <tr (click)="actualizar(row.codigoProducto)" @fadeInUp *matRowDef="let row; columns: visibleColumns;" class="hover:bg-hover swift-ease-out cursor-pointer" mat-row></tr>
+                            </table>
+                            <div *ngIf="productos?.length == 0" class="alert alert-info mt-2" @fadeInRight>
+                                No se encontraron registros!!!
+                            </div>
+                            <mat-paginator [hidden]="dataSource.filteredData.length === 0" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end page-content-wrapper -->
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+    <ng-template let-producto="producto" matMenuContent>
+        <button (click)="actualizar(producto.codigoProducto)" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Modificar</span>
+    </button>
+        <button (click)="eliminar(producto.codigoProducto)" mat-menu-item>
+      <mat-icon>delete_outline</mat-icon>
+      <span>Eliminar</span>
+    </button>
+    </ng-template>
+</mat-menu>
